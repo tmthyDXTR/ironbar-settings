@@ -1,0 +1,162 @@
+position = "top"
+height = 24
+popup_autohide = true
+
+[[start]]
+type = "workspaces"
+
+[[center]]
+type = "focused"
+icon_size = 16
+
+[[end]]
+type = "custom"
+class = "network-widget"
+
+[[end.bar]]
+type = "button"
+label = "{{5000:SIG=$(nmcli -f IN-USE,SIGNAL device wifi | grep '^\\*' | awk '{print $2}'); SSID=$(nmcli -t -f active,ssid dev wifi | grep '^yes' | cut -d: -f2); if [ -z \"$SSID\" ]; then echo \"<span font='16'>󰤮</span> Disconnected\"; elif [ \"$SIG\" -ge 80 ]; then echo \"<span font='16'>󰤨</span> $SSID\"; elif [ \"$SIG\" -ge 60 ]; then echo \"<span font='16'>󰤥</span> $SSID\"; elif [ \"$SIG\" -ge 40 ]; then echo \"<span font='16'>󰤢</span> $SSID\"; elif [ \"$SIG\" -ge 20 ]; then echo \"<span font='16'>󰤟</span> $SSID\"; else echo \"<span font='16'>󰤯</span> $SSID\"; fi}}"
+on_click = "popup:toggle"
+
+[[end.popup]]
+type = "box"
+orientation = "vertical"
+
+[[end.popup.widgets]]
+type = "label"
+label = "Network Information"
+
+[[end.popup.widgets]]
+type = "label"
+label = "SSID: {{5000:nmcli -t -f active,ssid dev wifi | grep '^yes' | cut -d: -f2}}"
+
+[[end.popup.widgets]]
+type = "label"
+label = "IP: {{5000:ip route get 1.1.1.1 2>/dev/null | grep -oP 'src \\K[0-9.]+' || echo 'Disconnected'}}"
+
+[[end.popup.widgets]]
+type = "label"
+label = "Signal: {{5000:nmcli -f IN-USE,SIGNAL device wifi | grep '^\\*' | awk '{print $2}'}}%"
+
+[[end.popup.widgets]]
+type = "button"
+label = "Open Network Settings"
+on_click = "! kitty --class floating -e nmtui"
+
+[[end]]
+type = "battery"
+show_if = "ls /sys/class/power_supply/ | grep --quiet '^BAT'"
+icon_size = 12
+
+[[end]]
+type = "brightness"
+format = "{percentage}%"
+smooth_scroll_speed = 0.5
+on_click = "popup:toggle"
+
+[end.mode]
+type = "systemd"
+subsystem = "backlight"
+name = "amdgpu_bl1"
+
+[end.profiles.level0]
+when = 5
+icon_label = ""
+
+[end.profiles.level10]
+when = 15
+icon_label = ""
+
+[end.profiles.level20]
+when = 25
+icon_label = ""
+
+[end.profiles.level30]
+when = 35
+icon_label = ""
+
+[end.profiles.level40]
+when = 45
+icon_label = ""
+
+[end.profiles.level50]
+when = 55
+icon_label = ""
+
+[end.profiles.level60]
+when = 65
+icon_label = ""
+
+[end.profiles.level70]
+when = 75
+icon_label = ""
+
+[end.profiles.level80]
+when = 85
+icon_label = ""
+
+[end.profiles.level90]
+when = 95
+icon_label = ""
+
+[end.profiles.level100]
+when = 100
+icon_label = ""
+
+[[end.popup]]
+type = "box"
+orientation = "vertical"
+
+[[end.popup.widgets]]
+type = "label"
+label = "Brightness Control"
+
+[[end.popup.widgets]]
+type = "slider"
+orientation = "horizontal"
+length = 200
+on_change = "!brightnessctl set {0}%"
+
+[[end.popup.widgets]]
+type = "box"
+orientation = "horizontal"
+
+[[end.popup.widgets.widgets]]
+type = "button"
+label = "25%"
+on_click = "!brightnessctl set 25%"
+
+[[end.popup.widgets.widgets]]
+type = "button"
+label = "50%"
+on_click = "!brightnessctl set 50%"
+
+[[end.popup.widgets.widgets]]
+type = "button"
+label = "75%"
+on_click = "!brightnessctl set 75%"
+
+[[end.popup.widgets.widgets]]
+type = "button"
+label = "100%"
+on_click = "!brightnessctl set 100%"
+
+[[end]]
+type = "volume"
+iconsize = 14
+
+[[end]]
+type = "tray"
+
+[[end]]
+type = "clipboard"
+max_items = 5
+
+[end.truncate]
+mode = "end"
+length = 30
+
+[[end]]
+type = "clock"
+height = 24
+popup_autohide = true
